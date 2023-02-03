@@ -1,6 +1,5 @@
 'use client';
-import useTextileProducts from '@/api/textile-products';
-// import AutoComplete from '../components/AutoComplete';
+import useTextileProducts from '@/api/textile-materials';
 
 export default function Home() {
   const { isLoading, error, data } = useTextileProducts();
