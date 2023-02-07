@@ -4,6 +4,7 @@ import { Country } from '@/api/textile-countries';
 import { Material } from '@/api/textile-materials';
 import { Product } from '@/api/textile-products';
 import { useState } from 'react';
+import Input from './Input';
 import SelectCountry from './SelectCountry';
 import SelectMaterial from './SelectMaterial';
 import SelectProduct from './SelectProduct';
@@ -29,6 +30,7 @@ export default function Home() {
         selected={selectedProduct}
         setSelected={setSelectedProduct}
       />
+      <Input type="number" placeholder="toto" />
     </>
   );
 }
