@@ -2,8 +2,8 @@ import useTextileMaterials, { Material } from '@/api/textile-materials';
 import AutoComplete from './AutoComplete';
 
 interface SelectMaterialProps {
-  selected: Material | null;
-  setSelected: (selected: Material | null) => void;
+  selected: string | null;
+  setSelected: (selected: string | null) => void;
 }
 
 const SelectMaterial = ({ selected, setSelected }: SelectMaterialProps) => {
@@ -11,15 +11,18 @@ const SelectMaterial = ({ selected, setSelected }: SelectMaterialProps) => {
 
   const options = isSuccess ? data : [];
 
+  const selectedObject = options.find(({ id }) => id === selected) || null;
+  const setSelectedObject = (s: Material | null) => setSelected(s?.id ?? null);
+
   return (
-    <AutoComplete
+    <AutoComplete<Material>
       searchField="name"
       idField="id"
       displayField="name"
-      selected={selected}
-      setSelected={setSelected}
+      selected={selectedObject}
+      setSelected={setSelectedObject}
       options={options}
-      placeholder="Material"
+      placeholder="Materiau"
     />
   );
 };

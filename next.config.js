@@ -7,9 +7,12 @@ const nextConfig = {
   },
   rewrites: async () => {
     return [
-      { source: '/api/:path*', destination: `${API_ROOT}/:path*` }
-    ]
-  }
-}
+      {
+        source: '/api/fwd/:path*',
+        destination: `${API_ROOT}/:path*`,
+      },
+    ];
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
