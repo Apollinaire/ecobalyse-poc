@@ -1,5 +1,7 @@
 import useSimulator, { SimulatorParameters } from '@/api/simulator';
 import { useState } from 'react';
+import Button from './Button';
+import DisplayImpacts from './DisplayImpacts';
 import FormControl from './FormControl';
 import Input from './Input';
 import MaterialSelect from './MaterialSelect';
@@ -13,6 +15,16 @@ const SimulatorForm = () => {
     countryFabric: 'CN',
     countryDyeing: 'CN',
     countryMaking: 'CN',
+    countrySpinning: '',
+    airTransportRatio: '',
+    quality: '',
+    reparability: '',
+    makingWaste: '',
+    picking: '',
+    surfaceMass: '',
+    disableFading: false,
+    disabledSteps: [],
+    ennoblingHeatSource: undefined,
   });
 
   const [materials, setMaterials] = useState<SimulatorParameters['materials']>([
@@ -26,7 +38,7 @@ const SimulatorForm = () => {
   };
 
   return (
-    <div className="space-y-8 bg-gray-100 p-4">
+    <div className="w-[700px] max-w-full space-y-8 bg-gray-100 p-4">
       <FormControl label="Type de produit">
         <SelectProduct
           selected={state.product}
@@ -56,7 +68,10 @@ const SimulatorForm = () => {
           }}
         />
       </FormControl>
-      <FormControl label="Matériaux">
+      <FormControl
+        label="Matériaux"
+        helper="La somme des proportions doit valoir 1"
+      >
         <MaterialSelect materials={materials} setMaterials={setMaterials} />
       </FormControl>
       <FormControl label="Pays de tissage/tricotage">
@@ -90,13 +105,22 @@ const SimulatorForm = () => {
         />
       </FormControl>
 
-      <button onClick={onSubmit}>Calculer</button>
+      {/* <p className="text-center text-gray-600">* paramêtres optionnels *</p> */}
+
+      <Button onClick={onSubmit}>Calculer</Button>
       {data && (
         <>
-          <pre>
-            <code>{JSON.stringify(data.impacts, null, 2)}</code>
-          </pre>
+          {data.impacts && <DisplayImpacts impacts={data.impacts} />}
           <p>{data.description}</p>
+          {data?.errors && (
+            <ul className="text-red-700">
+              {Object.keys(data.errors).map((key) => (
+                <li key={key}>
+                  {key}: {data.errors[key]}
+                </li>
+              ))}
+            </ul>
+          )}
         </>
       )}
     </div>

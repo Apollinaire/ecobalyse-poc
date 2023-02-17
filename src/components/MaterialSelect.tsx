@@ -1,5 +1,6 @@
 import { SimulatorParameters } from '@/api/simulator';
 import { Dispatch, FC, SetStateAction } from 'react';
+import Button from './Button';
 import Input from './Input';
 import SelectMaterial from './SelectMaterial';
 
@@ -31,6 +32,7 @@ const MaterialSelect: FC<MaterialSelectProps> = ({
             }}
           />
           <Input
+            className="basis-20"
             type="number"
             value={share}
             onChange={(e) => {
@@ -43,7 +45,7 @@ const MaterialSelect: FC<MaterialSelectProps> = ({
               );
             }}
           />
-          <button
+          <Button
             type="button"
             onClick={() =>
               setMaterials((mats) => {
@@ -54,10 +56,10 @@ const MaterialSelect: FC<MaterialSelectProps> = ({
             }
           >
             x
-          </button>
+          </Button>
         </div>
       ))}
-      <button
+      <Button
         type="button"
         onClick={() => {
           setMaterials((mats) => [
@@ -67,7 +69,7 @@ const MaterialSelect: FC<MaterialSelectProps> = ({
         }}
       >
         +
-      </button>
+      </Button>
     </>
   );
 };

@@ -19,6 +19,12 @@ export enum EnnoblingHeatSource {
   HeavyFuel = 'heavyFuel',
 }
 
+export enum DyeingMedium {
+  Article = 'article',
+  Fabric = 'fabric',
+  Yarn = 'yarn',
+}
+
 type NumberStr = string;
 
 export interface MaterialInput {
@@ -43,9 +49,48 @@ export interface SimulatorParameters {
   disableFading?: boolean;
   disabledSteps?: Array<DisabledSteps>;
   ennoblingHeatSource?: EnnoblingHeatSource;
+  dyeingMedium?: DyeingMedium;
+  printing?: { value: string; share: string };
 }
 
+const simulatorKeys = [
+  'mass',
+  'materials',
+  'product',
+  'countryFabric',
+  'countryDyeing',
+  'countryMaking',
+  'countrySpinning',
+  'airTransportRatio',
+  'quality',
+  'reparability',
+  'makingWaste',
+  'picking',
+  'surfaceMass',
+  'disableFading',
+  'disabledSteps',
+  'ennoblingHeatSource',
+];
+
+const isKey = (key: string): key is keyof SimulatorParameters => {
+  return simulatorKeys.includes(key);
+};
+
 const endpoint = '/simulator';
+
+const cleanEmptyParams = (params: any): SimulatorParameters => {
+  const keys = Object.keys(params);
+  const result: any = {};
+
+  keys.forEach((key: any) => {
+    if (isKey(key)) {
+      if (params[key]) {
+        result[key] = params[key];
+      }
+    }
+  });
+  return result;
+};
 
 const useSimulator = () =>
   useMutation({
@@ -56,7 +101,7 @@ const useSimulator = () =>
         )
         .join('&');
 
-      const query = qs.stringify(params);
+      const query = qs.stringify(cleanEmptyParams(params));
 
       const res = await fetch(
         '/api' + endpoint + '?' + matsQuery + '&' + query,

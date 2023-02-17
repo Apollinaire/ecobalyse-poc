@@ -75,6 +75,7 @@ export default function AutoComplete<T extends {}>({
                       }`
                     }
                     value={opt}
+                    title={opt[displayField] as string | undefined}
                   >
                     {({ selected, active }) => (
                       <>
